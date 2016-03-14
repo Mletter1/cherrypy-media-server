@@ -6,8 +6,23 @@ from cherrypy.lib.static import serve_file
 import os.path
 
 class Root:
+
     @cherrypy.expose
-    def index(self, name):
+    def index(self):
+        return """<html>
+          <head>
+            <link href="#" rel="stylesheet">
+          </head>
+      <body>
+        <form method="get" action="video">
+          <input type="text" value="testvid.mp4" name="name" />
+              <button type="submit">get my video!</button>
+        </form>
+      </body>
+    </html>"""
+
+    @cherrypy.expose
+    def video(self, name):
         return serve_file(os.path.join(static_dir, name))
 
 if __name__=='__main__':
@@ -22,7 +37,7 @@ if __name__=='__main__':
         '/': {  
             'tools.staticdir.on':   True,  
             'tools.staticdir.root': static_dir,
-            'tools.staticdir.dir':  '',
+            'tools.staticdir.dir': './public'
         }
     }
 
